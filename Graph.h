@@ -2,6 +2,7 @@
 #include <queue>
 #include "set"
 #include "list"
+#include "Set.h"
 
 struct node;
 struct arc;
@@ -419,63 +420,25 @@ public:
         std::cout << std::endl;
     }
 
-//     std::list <std::set<int>> kerbosh(int **&a) {
-//        int SIZE =
-//        std::set<int> M, G, K, P;
-//        std::list <std::set<int>> REZULT;
-//        for (int i = 0; i < SIZE; i++) {
-//            K.insert(i);
-//        }
-//        int v, Count = 0, cnt = 0;
-//        int Stack1[100];
-//        std::set<int> Stack2[100];
-//        std::set<int>::iterator theIterator;
-//        theIterator = K.begin();
-//        while ((K.size() != 0) || (M.size() != 0)) {
-//            if (K.size() != 0) {
-//                theIterator = K.begin();
-//                v = *theIterator;
-//                Stack2[++Count] = M;
-//                Stack2[++Count] = K;
-//                Stack2[++Count] = P;
-//                Stack1[++cnt] = v;
-//                M.insert(v);
-//                for (int i = 0; i < SIZE; i++) {
-//                    if (a[v][i]) {
-//                        theIterator = K.find(i);
-//                        if (theIterator != K.end()) {
-//                            K.erase(theIterator);
-//                        }
-//                        theIterator = P.find(i);
-//                        if (theIterator != P.end()) {
-//                            P.erase(theIterator);
-//                        }
-//                    }
-//                }
-//                theIterator = K.find(v);
-//                if (theIterator != K.end()) {
-//                    K.erase(theIterator);
-//                }
-//            } else {
-//                if (P.size() == 0) {
-//                    REZULT.push_back(M);
-//                }
-//                v = Stack1[cnt--];
-//                P = Stack2[Count--];
-//                K = Stack2[Count--];
-//                M = Stack2[Count--];
-//                theIterator = K.find(v);
-//                if (theIterator != K.end()) {
-//                    K.erase(theIterator);
-//                }
-//                P.insert(v);
-//            }
-//        }
-//        return REZULT;
-//    }
-//
-//    void bronKerbosh() {
-//        std::list <std::set<int>> res;
-//        res = kerbosh()
-//    }
+    void bronKerbosch(Set <node*> R, Set <node*> P, Set <node*> X) {
+        if(P.empty() && X.empty()) {
+            cout<<"Clique found: ";
+            cout << R << endl;
+        }
+
+//        while (!P.empty() && );
+
+        set<node*>::iterator v = P.begin();
+        while(!P.empty()  && v!=P.end()){
+            set<node*> singleton = { (*v) };
+            bronKerbosch(
+                    set_union(R,singleton),
+                    set_intersection(P,(*v)->friends),
+                    set_intersection(X,(*v)->friends));
+            P = set_difference(P,singleton);
+            X = set_union(X,singleton);
+            if(!P.empty())
+                v = P.begin();
+        }
+    }
 };
